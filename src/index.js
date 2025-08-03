@@ -51,11 +51,21 @@ const generateUserSlug = (name) => {
     .replace(/\s+/g, "-"); // replace spaces with dashes
 };
 
-app.get("/", (req, res) => {
-  //so when the user go the home page his roll will be a buyer and not a seller so we'll just display the products for now
-  res.redirect("/products");
+app.get("/", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany();
+    res.json({
+      message: "E-commerce API is running!",
+      endpoints: ["/products", "/login", "/signup", "/cart"],
+      products: products,
+    });
+  } catch (error) {
+    res.json({
+      message: "E-commerce API is running!",
+      endpoints: ["/products", "/login", "/signup", "/cart"],
+    });
+  }
 });
-
 app.get("/products", async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
