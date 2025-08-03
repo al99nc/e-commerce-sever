@@ -51,21 +51,13 @@ const generateUserSlug = (name) => {
     .replace(/\s+/g, "-"); // replace spaces with dashes
 };
 
-app.get("/", async (req, res) => {
-  try {
-    const products = await prisma.product.findMany();
-    res.json({
-      message: "E-commerce API is running!",
-      endpoints: ["/products", "/login", "/signup", "/cart"],
-      products: products,
-    });
-  } catch (error) {
-    res.json({
-      message: "E-commerce API is running!",
-      endpoints: ["/products", "/login", "/signup", "/cart"],
-    });
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    res.status(200).json({ message: "This is the products route." });
+  } else {
+    res.status(405).end();
   }
-});
+}
 app.get("/products", async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
