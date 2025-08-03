@@ -1,12 +1,12 @@
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import dotenv from "dotenv";
-import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import multer from "multer";
-import path from "path";
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const dotenv = require("dotenv");
+const { PrismaClient } = require("@prisma/client");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const multer = require("multer");
+const path = require("path");
 
 const prisma = new PrismaClient();
 dotenv.config();
@@ -30,13 +30,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // More secure version with some basic protections
-app.use("/uploads", (req, res, next) => {
-  // Prevent directory traversal
-  if (req.url.includes('..')) {
-    return res.status(403).send('Forbidden');
-  }
-  next();
-}, express.static("uploads"));
+app.use(
+  "/uploads",
+  (req, res, next) => {
+    // Prevent directory traversal
+    if (req.url.includes("..")) {
+      return res.status(403).send("Forbidden");
+    }
+    next();
+  },
+  express.static("uploads")
+);
 //slugggg generater
 const generateUserSlug = (name) => {
   //from the internet
