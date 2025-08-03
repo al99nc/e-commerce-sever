@@ -1215,6 +1215,5 @@ app.post("/logout", getOptionalUser, async (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
+// Export the app for Vercel to handle
+module.exports = app;
